@@ -1,0 +1,52 @@
+
+BoxLayout:
+    orientation: 'horizontal'
+    BoxLayout:
+        orientation: 'vertical'
+        # Left hand column
+        size_hint_x: 0.3
+        Label:
+            text: "Sort by:"
+        Spinner:
+            id: spinner_text
+            text: app.visited_status_message
+            values: app.visited_status_message
+            on_text: app.sort_places(self.text)
+        Label:
+            text: "Add New Place..."
+        Label:
+            text: "Place"
+        TextInput:
+            id: new_place
+            multiline: False
+            write_tab: False
+        Label:
+            text: "Country"
+        TextInput:
+            id: Country
+            multiline: False
+            write_tab: False
+        Label:
+            text: "Priority"
+        TextInput:
+            id: Priority
+            multiline: False
+            write_tab: False
+        Button:
+            on_press: app.add_new_place()
+            text: "Add Place"
+        Button:
+            text: "Clear"
+            on_press: app.handle_clear()
+    BoxLayout:
+        # Right hand column
+        orientation: 'vertical'
+        Label:
+            size_hint_y: 0.1
+            text: app.visited_status_message
+        BoxLayout:
+            orientation: 'vertical'
+            id: place_buttons
+        Label:
+            size_hint_y: 0.1
+            text: app.program_status_bar
