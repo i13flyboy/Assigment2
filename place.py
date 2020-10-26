@@ -17,15 +17,6 @@ class Place:
     def __repr__(self):
         return "Name {} Country {} with priority {} status {}".format(self.name, self.country, self.priority,)
 
-    def get_place_name(self):
-        return self.name
-
-    def get_country(self):
-        return self.country
-
-    def get_priority(self):
-        return self.priority
-
     def place_is_visited(self):
         """
         Mark the current place as visited
