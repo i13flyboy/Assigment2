@@ -3,7 +3,7 @@ Name:Kyle Kunz
 Date:10/10/2020
 Brief Project Description:this is a program that allows you to add places you want ot travel to
 and mark off places that you have visited.
-GitHub URL:
+GitHub URL: https://github.com/i13flyboy/Assigment2
 """
 # Create your main program in this file, using the TravelTrackerApp class
 from kivy.app import App
