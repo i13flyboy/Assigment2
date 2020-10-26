@@ -10,14 +10,14 @@ BoxLayout:
         Spinner:
             id: spinner_text
             text: app.visited_status_message
-            values: app.visited_status_message
+            values: app.program_status_bar
             on_text: app.sort_places(self.text)
         Label:
             text: "Add New Place..."
         Label:
             text: "Place"
         TextInput:
-            id: new_place
+            id: Place
             multiline: False
             write_tab: False
         Label:

@@ -11,13 +11,14 @@ from kivy.lang import Builder
 from kivy.uix.button import Button
 from kivy.properties import StringProperty
 from kivy.properties import ListProperty
+
+import place
 from place_collection import PlaceCollection
 from place import Place
 sort_dictionary = {'Priority': 'priority', 'Visited': 'is_visited', 'Country': 'country'}
 COUNTRY = {"Peru", "Italy", "New Zealand"}
 VISITED_COLOUR = (1, 0.5, 1, 1)
 NOT_VISITED_COLOUR = (0, 1, 1, 0.7)
-PLACE_FILE = "places.csv"
 BLANK_STRING = ""
 
 
@@ -25,7 +26,7 @@ class TravelTrackerApp(App):
     """
     main program
     """
-    days_code = ListProperty
+    days_codes = ListProperty
     visited_status_message = StringProperty()
     program_status_bar = StringProperty()
 
@@ -35,8 +36,7 @@ class TravelTrackerApp(App):
         """
         super().__init__(**kwargs)
         self.place_collections = PlaceCollection
-        self.sort_by = sort_dictionary
-        self.place = Place
+        self.place_collections.load_places("places.csv")
 
     def build(self):
         """
@@ -44,8 +44,9 @@ class TravelTrackerApp(App):
         """
         self.title = "Travel Tracker APP"
         self.root = Builder.load_file('app.kv')
-        self.Place_collections.load_places(PLACE_FILE)
-        self.visited_status_message = self.sort_dictionary[0]
+        self.days_codes = sort_dictionary.keys()
+        self.place_collections.load_places(place)
+        self.visited_status_message = self.program_status_bar[0]
         return self.root
 
     def change_status(self, days_code):
@@ -71,7 +72,7 @@ class TravelTrackerApp(App):
         self.dynamic_places()
 
     def on_stop(self):
-        self.Place_collections.save_places(PLACE_FILE)
+        self.Place_collections.save_places(place)
         print("Bye")
 
     def create_widgets(self):

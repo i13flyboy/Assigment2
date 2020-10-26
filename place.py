@@ -1,3 +1,5 @@
+
+
 class Place:
     def __init__(self, name="", country="", priority=0, is_visited=True, not_visited=False):
         self.name = name
