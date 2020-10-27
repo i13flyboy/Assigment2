@@ -1,34 +1,29 @@
-
-
 class Place:
-    def __init__(self, place="", country="", priority=0, is_visited=True, not_visited=False):
-        self.place = place
+    def __init__(self, name="", country="", priority=0, is_visited=True):
+        self.name = name
         self.country = country
         self.priority = priority
         self.is_visited = is_visited
-        self.not_visited = not_visited
 
     def __str__(self):
-        if self.is_visited:
-            visit_status = "Visited"
+        if self.is_visited == True:
+            visit_status = "visited"
         else:
             visit_status = ""
-        return "Name {} Country {} with priority {} status {}".format(self.place, self.country, self.priority,
-                                                                      visit_status)
+        return "{} ({}) {} {}".format(self.name, self.priority, self.country, visit_status)
 
     def __repr__(self):
-        return "Name {} Country {} with priority {}".format(self.place, self.country, self.priority)
+        return "{} ({}) {} {}".format(self.name, self.country, self.priority, self.is_visited)
 
     def place_is_visited(self):
         """
         Mark the current place as visited
         """
-        return self.is_visited
+        self.is_visited =True
 
     def place_is_not_visited(self):
         """
         Mark the current place as visited
         """
-        return self.not_visited
+        self.is_visited = False
     pass
-

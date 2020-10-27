@@ -1,4 +1,3 @@
-
 BoxLayout:
     orientation: 'horizontal'
     BoxLayout:
@@ -9,27 +8,26 @@ BoxLayout:
             text: "Sort by:"
         Spinner:
             id: spinner_text
-            text: app.visited_status_message
-            values: app.program_status_bar
-            on_text: app.sort_places(self.text)
+            values: app.current_place
+            on_text: app.change_status(self.text)
         Label:
-            text: "Add New Place..."
+            text: "Add New Places"
         Label:
             text: "Place"
         TextInput:
-            id: Place
+            id: new_place
             multiline: False
             write_tab: False
         Label:
             text: "Country"
         TextInput:
-            id: Country
+            id: new_country
             multiline: False
             write_tab: False
         Label:
             text: "Priority"
         TextInput:
-            id: Priority
+            id: new_priority
             multiline: False
             write_tab: False
         Button:
@@ -43,10 +41,19 @@ BoxLayout:
         orientation: 'vertical'
         Label:
             size_hint_y: 0.1
-            text: app.visited_status_message
+            id: status_text
+            text: 'Places to visit'
+        Label:
+            size_hint_y: 0.1
+            text: app.program_status_bar
         BoxLayout:
             orientation: 'vertical'
             id: place_buttons
         Label:
             size_hint_y: 0.1
             text: app.program_status_bar
+        Label:
+            id: status_visited
+            size_hint_y: 0.1
+            text: 'Status visited'
+

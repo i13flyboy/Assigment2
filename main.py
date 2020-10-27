@@ -14,8 +14,8 @@ from kivy.properties import ListProperty
 from place_collection import PlaceCollection
 from place import Place
 
-sort_dictionary = {'Priority': 'priority', 'Visited': 'is_visited', 'Country': 'country'}
-COUNTRY = {"Peru", "Italy", "New Zealand"}
+sort_dictionary = {"Priority": 'priority', "Visited": 'is_visited', "Country": 'country'}
+
 VISITED_COLOUR = (1, 0.5, 1, 1)
 NOT_VISITED_COLOUR = (0, 1, 1, 0.7)
 BLANK_STRING = ""
@@ -25,9 +25,10 @@ class TravelTrackerApp(App):
     """
     main program
     """
+    current_place = StringProperty()
     days_codes = ListProperty
-    visited_status_message = StringProperty()
     program_status_bar = StringProperty()
+    visited_status_message = StringProperty()
 
     def __init__(self, **kwargs):
         """
@@ -44,8 +45,8 @@ class TravelTrackerApp(App):
         """
         self.title = "Travel Tracker APP"
         self.root = Builder.load_file('app.kv')
-        self.days_codes = sort_dictionary.keys()
-        self.root.ids.spinner_text.text = self.visited_status_message
+        self.days_codes = sorted(sort_dictionary.keys())
+        self.current_place = self.days_codes[0]
         self.dynamic_places()
         return self.root
 
@@ -59,7 +60,7 @@ class TravelTrackerApp(App):
             temp_button = Button(text=str(place), id=str(index))
             temp_button.place = place
             temp_button.bind(on_release=self.press_entry)
-            self.root.ids.box_list.add_widget(temp_button)
+            self.root.ids.place_buttons.add_widget(temp_button)
             index = index + 1
         return
 
@@ -68,8 +69,8 @@ class TravelTrackerApp(App):
         updates the entry
         """
         instance.place.is_visited = True
-        self.root.ids.status_visited.text = "You pressed " + instance.place.country
-        self.root.ids.box_listclear_widgets()
+        self.root.ids.status_visited.text = "You pressed " + instance.id
+        self.root.ids.box_list.clear_widgets()
         self.dynamic_places()
 
     def on_stop(self):
@@ -103,7 +104,7 @@ class TravelTrackerApp(App):
         if self.place_collection.places[index_number].is_visited:
             self.place_collection.places[index_number].place_is_visited()
             place_is_not_visited = self.place_collection.places[index_number]
-            self.update_program_status_bar("You need to visit {}".format(place_is_not_visited.title))
+            self.update_program_status_bar("You need to visit {}".format(place_is_not_visited.place))
         else:
             self.place_collection.places[index_number].place_is_visited()
             place_is_visited = self.place_collection.place[index_number]
@@ -116,9 +117,9 @@ class TravelTrackerApp(App):
         adds new place to the place collection
         """
         # Get the text from the text inputs
-        new_country = self.root.ids.new_country.text
-        new_priority= self.root.ids.new_priority.text
         new_place = self.root.ids.new_place.text
+        new_country = self.root.ids.new_country.text
+        new_priority = self.root.ids.new_priority.text
 
         if new_place == BLANK_STRING or new_country == BLANK_STRING or new_priority == BLANK_STRING:
             self.update_program_status_bar("All fields must be completed")
@@ -127,19 +128,15 @@ class TravelTrackerApp(App):
                 new_priority = int(new_priority)
                 if new_priority < 0:
                     self.update_program_status_bar("Please enter a number >= 0")
-                elif new_priority:
-                    self.update_program_status_bar("Please enter a number >= 0")
+                    self.update_program_status_bar("Please enter a number <= 0")
                 else:
-                    if new_country.lower() not in COUNTRY:
-                        self.update_program_status_bar("Country is already known")
-                    else:
-                        self.root.ids.new_palce.text = BLANK_STRING
-                        self.root.ids.new_country.text = BLANK_STRING
-                        self.root.ids.new_priority.text = BLANK_STRING
-                        self.place_visited.add_place(new_place, new_country, new_priority)
-                        self.sort_places(self.root.ids.spinner_text.text)
-                        self.update_program_status_bar(
-                            "{} {} from {} Added".format(new_place, new_country, new_priority))
+                    self.root.ids.new_place.text = BLANK_STRING
+                    self.root.ids.new_country.text = BLANK_STRING
+                    self.root.ids.new_priority.text = BLANK_STRING
+                    self.place_is_visited.add_place(new_place, new_country, new_priority)
+                    self.sort_places(self.root.ids.visited_status_message.text)
+                    self.update_program_status_bar(
+                        "{} {} from {} Added".format(new_place, new_country, new_priority))
             except ValueError:
                 self.update_program_status_bar("Please enter a valid number")
             except TypeError:
@@ -150,7 +147,8 @@ class TravelTrackerApp(App):
         updates on how many places have been visited
         """
         self.visited_status_message = "To visited: {}. visited: {}".format(self.place_collection.get_number_not_visited
-                                                                        (), self.place_collection.get_number_visited())
+                                                                           (),
+                                                                           self.place_collection.get_number_visited())
 
     def update_program_status_bar(self, instance):
         """
@@ -163,7 +161,6 @@ class TravelTrackerApp(App):
         sort the current places
         """
         text = text.lower()  # Call lower because it needs to be a capital in the spinner but lower case for sort
-        # function
         if text == "visited":
             text = "is_visited"
         self.place_collections.sort(text)
