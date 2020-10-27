@@ -11,10 +11,9 @@ from kivy.lang import Builder
 from kivy.uix.button import Button
 from kivy.properties import StringProperty
 from kivy.properties import ListProperty
-
-import place
 from place_collection import PlaceCollection
 from place import Place
+
 sort_dictionary = {'Priority': 'priority', 'Visited': 'is_visited', 'Country': 'country'}
 COUNTRY = {"Peru", "Italy", "New Zealand"}
 VISITED_COLOUR = (1, 0.5, 1, 1)
@@ -35,7 +34,8 @@ class TravelTrackerApp(App):
         makes the main app
         """
         super().__init__(**kwargs)
-        self.place_collections = PlaceCollection
+        self.place_collections = PlaceCollection()
+        self.place = Place
         self.place_collections.load_places("places.csv")
 
     def build(self):
@@ -45,18 +45,19 @@ class TravelTrackerApp(App):
         self.title = "Travel Tracker APP"
         self.root = Builder.load_file('app.kv')
         self.days_codes = sort_dictionary.keys()
-        self.place_collections.load_places(place)
-        self.visited_status_message = self.program_status_bar[0]
+        self.root.ids.spinner_text.text = self.visited_status_message
+        self.dynamic_places()
         return self.root
 
     def change_status(self, days_code):
         self.root.ids.status_text.text = sort_dictionary[days_code]
+        self.place_collections.sort(sort_dictionary[days_code])
 
     def dynamic_places(self):
         index = 1
-        for place in self.Place_collections.load_places():
+        for place in self.place_collections.places:
             temp_button = Button(text=str(place), id=str(index))
-            temp_button.place = Place
+            temp_button.place = place
             temp_button.bind(on_release=self.press_entry)
             self.root.ids.box_list.add_widget(temp_button)
             index = index + 1
@@ -66,13 +67,13 @@ class TravelTrackerApp(App):
         """
         updates the entry
         """
-        instance.place.is_visited =True
+        instance.place.is_visited = True
         self.root.ids.status_visited.text = "You pressed " + instance.place.country
         self.root.ids.box_listclear_widgets()
         self.dynamic_places()
 
     def on_stop(self):
-        self.Place_collections.save_places(place)
+        self.place_collections.save_places("places.csv")
         print("Bye")
 
     def create_widgets(self):
@@ -104,7 +105,7 @@ class TravelTrackerApp(App):
             place_is_not_visited = self.place_collection.places[index_number]
             self.update_program_status_bar("You need to visit {}".format(place_is_not_visited.title))
         else:
-            self.lace_collection.places[index_number].place_is_visited()
+            self.place_collection.places[index_number].place_is_visited()
             place_is_visited = self.place_collection.place[index_number]
             self.update_program_status_bar("You visited {}".format(place_is_visited.place))
         self.root.ids.place_buttons.clear_widgets()
@@ -130,7 +131,7 @@ class TravelTrackerApp(App):
                     self.update_program_status_bar("Please enter a number >= 0")
                 else:
                     if new_country.lower() not in COUNTRY:
-                        self.update_program_status_bar("Country is unknown")
+                        self.update_program_status_bar("Country is already known")
                     else:
                         self.root.ids.new_palce.text = BLANK_STRING
                         self.root.ids.new_country.text = BLANK_STRING
@@ -165,7 +166,7 @@ class TravelTrackerApp(App):
         # function
         if text == "visited":
             text = "is_visited"
-        self.place_collections_collection.sort(text)
+        self.place_collections.sort(text)
         self.root.ids.place_buttons.clear_widgets()
         self.create_widgets()
 
@@ -182,5 +183,4 @@ class TravelTrackerApp(App):
 """
 Run main
 """
-if __name__ == '__main__':
-    TravelTrackerApp().run()
+TravelTrackerApp().run()

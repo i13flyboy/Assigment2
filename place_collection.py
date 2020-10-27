@@ -21,6 +21,25 @@ class PlaceCollection:
         """
         self.places.append(place)
 
+    def load_places(self, filename="places.csv"):
+        """
+        load the places
+        """
+        with open(filename) as input_file:
+            for line in input_file:
+                line2 = line.strip()
+                parts = line2.split(",")
+                temp_city = Place(parts[1], int(parts[2]))
+                if parts[3] == 'n':
+                    temp_city.is_visited = False
+                else:
+                    temp_city.is_visited =True
+                self.add_place(Place(parts[1], int(parts[2]), temp_city))
+            input_file.close()
+        for place in self.places:
+            print(place)
+        print(self.places)
+
     def get_number_visited(self):
         """
         get the number of visited places
@@ -41,36 +60,12 @@ class PlaceCollection:
                 places_not_visited_counter += 1
         return places_not_visited_counter
 
-    def load_places(self, filename="places.csv"):
-        """
-        loads in the csv file called places.csv
-        """
-        p1 = Place
-        self.add_place(p1)
-        with open(filename) as input_file:
-            for line in input_file:
-                if line == "":
-                    print("blank line here")
-                else:
-                    line = line.strip()
-                    parts = line.split(",")
-                    temp_city = Place(parts[1], int(parts[1]))
-                    if parts[3] == 'n':
-                        temp_city.is_visited = False
-                    else:
-                        temp_city.is_visited =True
-                    self.add_place(Place(parts[1], int(parts[1]), temp_city))
-            input_file.close()
-        for place in self.places:
-            print(place)
-        print(self.places)
-
-    def save_places(self, output_file):
+    def save_places(self, filename="places.csv"):
         """
         Save the places
         """
-        exported_file = open(output_file, 'w')
-        self.sort("priority")
+        exported_file = open(filename, 'w')
+        self.sort("place")
         visited_places = []
         for place in self.places:
             visited_symbol = 'n'
@@ -83,4 +78,4 @@ class PlaceCollection:
 
     def sort(self, attr="priority"):
         self.places.sort(key=attrgetter(attr, "priority"))
-    pass
+        return
