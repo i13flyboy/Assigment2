@@ -8,7 +8,7 @@ BoxLayout:
             text: "Sort by:"
         Spinner:
             id: select_day
-            values: app.current_place
+            values: app.list_codes
             on_text: app.change_status(self.text)
         Label:
             id: output_label

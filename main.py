@@ -32,7 +32,6 @@ class TravelTrackerApp(App):
     program_status_bar = StringProperty()
     visited_status_message = StringProperty()
 
-
     def __init__(self, **kwargs):
         """
         makes the main app
@@ -41,6 +40,7 @@ class TravelTrackerApp(App):
         self.place_collections = PlaceCollection()
         self.place = Place
         self.place_collections.load_places("places.csv")
+        self.list_codes = sort_dictionary
 
     def build(self):
         """
