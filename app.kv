@@ -7,9 +7,11 @@ BoxLayout:
         Label:
             text: "Sort by:"
         Spinner:
-            id: spinner_text
+            id: select_day
             values: app.current_place
             on_text: app.change_status(self.text)
+        Label:
+            id: output_label
         Label:
             text: "Add New Places"
         Label:
@@ -40,9 +42,11 @@ BoxLayout:
         # Right hand column
         orientation: 'vertical'
         Label:
-            size_hint_y: 0.1
-            id: status_text
+            size_hint_y: 0.2
             text: 'Places to visit'
+        BoxLayout:
+            orientation: 'vertical'
+            id: box_list
         Label:
             size_hint_y: 0.1
             text: app.program_status_bar
@@ -50,10 +54,8 @@ BoxLayout:
             orientation: 'vertical'
             id: place_buttons
         Label:
-            size_hint_y: 0.1
-            text: app.program_status_bar
-        Label:
             id: status_visited
+            text: status_visited
             size_hint_y: 0.1
             text: 'Status visited'
 

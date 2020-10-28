@@ -29,12 +29,12 @@ class PlaceCollection:
             for line in input_file:
                 line2 = line.strip()
                 parts = line2.split(",")
-                place = Place(parts[1], int(parts[2]))
+                place = Place(parts[0], parts[1], int(parts[2]))
                 if parts[3] == 'n':
                     place.is_visited = False
                 else:
                     place.is_visited =True
-                self.add_place(Place(parts[1], int(parts[2])))
+                self.add_place(Place(parts[0], parts[1], int(parts[2])))
             input_file.close()
         for place in self.places:
             print(place)
@@ -71,10 +71,10 @@ class PlaceCollection:
             visited_symbol = 'n'
             if place.is_visited is True:
                 visited_symbol = "V"
-            visited_places.append("{},{},{}".format(place.name, place.country, place.priority, visited_symbol))
+            visited_places.append("{},{},{}".format(place.city, place.country, place.priority, visited_symbol))
             visited_places.append("\n")
             exported_file.writelines(visited_places)
         exported_file.close()
 
-    def sort(self, key):
-        self.places.sort(key=attrgetter(key, "priority"))
+    def sort(self, attr="priority"):
+        self.places.sort(key=attrgetter(attr, "priority"))

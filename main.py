@@ -14,8 +14,10 @@ from kivy.properties import ListProperty
 from place_collection import PlaceCollection
 from place import Place
 
-sort_dictionary = {"Priority": 'priority', "Visited": 'is_visited', "Country": 'country'}
 
+__author__ = 'Kyle Kunz'
+
+sort_dictionary ={'Priority': "priority", 'Visited': "is_visited", 'Country': "country"}
 VISITED_COLOUR = (1, 0.5, 1, 1)
 NOT_VISITED_COLOUR = (0, 1, 1, 0.7)
 BLANK_STRING = ""
@@ -26,9 +28,10 @@ class TravelTrackerApp(App):
     main program
     """
     current_place = StringProperty()
-    days_codes = ListProperty
+    list_codes = ListProperty
     program_status_bar = StringProperty()
     visited_status_message = StringProperty()
+
 
     def __init__(self, **kwargs):
         """
@@ -45,14 +48,14 @@ class TravelTrackerApp(App):
         """
         self.title = "Travel Tracker APP"
         self.root = Builder.load_file('app.kv')
-        self.days_codes = sorted(sort_dictionary.keys())
-        self.current_place = self.days_codes[0]
+        self.list_codes = sorted(sort_dictionary.keys())
+        self.root.ids.select_day.text = self.list_codes[0]
         self.dynamic_places()
         return self.root
 
-    def change_status(self, days_code):
-        self.root.ids.status_text.text = sort_dictionary[days_code]
-        self.place_collections.sort(sort_dictionary[days_code])
+    def change_status(self, list_code):
+        self.root.ids.output_label.text = (sort_dictionary[list_code])
+        self.place_collections.sort(sort_dictionary[list_code])
 
     def dynamic_places(self):
         index = 1
@@ -60,7 +63,7 @@ class TravelTrackerApp(App):
             temp_button = Button(text=str(place), id=str(index))
             temp_button.place = place
             temp_button.bind(on_release=self.press_entry)
-            self.root.ids.place_buttons.add_widget(temp_button)
+            self.root.ids.box_list.add_widget(temp_button)
             index = index + 1
         return
 
@@ -69,7 +72,7 @@ class TravelTrackerApp(App):
         updates the entry
         """
         instance.place.is_visited = True
-        self.root.ids.status_visited.text = "You pressed " + instance.id
+        #self.root.ids.status_visited.text = "You visited " + instance.place.country
         self.root.ids.box_list.clear_widgets()
         self.dynamic_places()
 
@@ -77,7 +80,7 @@ class TravelTrackerApp(App):
         self.place_collections.save_places("places.csv")
         print("Bye")
 
-    def create_widgets(self):
+    def create_widget(self):
         """
         makes all the place buttons
         """
@@ -89,10 +92,7 @@ class TravelTrackerApp(App):
                 visited_status = "visited"
             else:
                 colour = NOT_VISITED_COLOUR
-            temp_button = Button(
-                text="{} ({} from {}) {}".format(place.name, place.country, place.priority, visited_status),
-                id=str(index),
-                background_color=colour)
+            temp_button = Button(text=str(place), id=str(index))
             temp_button.bind(on_release=self.handle_place_button_press)
             self.root.ids.place_buttons.add_widget(temp_button)
 
@@ -133,8 +133,9 @@ class TravelTrackerApp(App):
                     self.root.ids.new_place.text = BLANK_STRING
                     self.root.ids.new_country.text = BLANK_STRING
                     self.root.ids.new_priority.text = BLANK_STRING
-                    self.place_is_visited.add_place(new_place, new_country, new_priority)
-                    self.sort_places(self.root.ids.visited_status_message.text)
+                    self.place_collections.add_place(
+                        Place(new_place, new_country, new_priority))
+                    #self.sort_palces(self.root.ids.spinner_text.tex)
                     self.update_program_status_bar(
                         "{} {} from {} Added".format(new_place, new_country, new_priority))
             except ValueError:
@@ -180,4 +181,5 @@ class TravelTrackerApp(App):
 """
 Run main
 """
-TravelTrackerApp().run()
+if __name__ == '__main__':
+    TravelTrackerApp().run()
