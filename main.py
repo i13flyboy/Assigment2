@@ -56,6 +56,7 @@ class TravelTrackerApp(App):
     def change_status(self, list_code):
         self.root.ids.output_label = (sort_dictionary[list_code])
         self.place_collections.sort(sort_dictionary[list_code])
+        print(self.place_collections)
 
     def dynamic_places(self):
         index = 1
@@ -92,7 +93,9 @@ class TravelTrackerApp(App):
                 visited_status = "visited"
             else:
                 colour = NOT_VISITED_COLOUR
-            temp_button = Button(text=str(place), id=str(index), background_color=colour)
+            temp_button = Button(
+                text=str("{} ({} from {}) {}".format(place.city, place.country, place.priority, visited_status)),
+                id=str(index), background_color=colour)
             temp_button.bind(on_release=self.handle__button_press)
             self.root.ids.place_buttons.add_widget(temp_button)
 

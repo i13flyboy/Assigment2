@@ -32,9 +32,12 @@ do with classes.
 
 ## 7. Describe the main challenges or obstacles you faced and how you overcame them.
 I would say one of the main challenges for this assignment was to learn how to the classes worked and how to get Kivy 
-working on my own PC. In my assignment i struggled with the load_places and how to get the places.csv to load but after
-while i got it to work.The names for all the different parts of classes were a bit hard to wrap my head around but after
-watching the help sessions i finally got.    
+working on my own PC. In my assignment I struggled with the load_places and how to get the places.csv to load but after
+while I got it to work.The names for all the different parts of classes were a bit hard to wrap my head around but after
+watching the help sessions i finally got. I struggled to get the kivy app to work at first. after long hours of staring
+my code, I finally found the problem and got the kivy app to open up. The next challenging thing was the spinner. 
+This took me ages because I could not figure out how to do it. after watching the help session videos over and over 
+again I finally got it.       
 
 ## 8. Briefly describe your experience using classes and if/how they improved your code.
 Made code look neater and easier to find specific parts as well as improved my coding experience and making it more 

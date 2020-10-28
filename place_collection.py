@@ -65,15 +65,15 @@ class PlaceCollection:
         Save the places
         """
         exported_file = open(filename, 'w')
-        self.sort("place")
+        self.sort("city")
         visited_places = []
         for place in self.places:
             visited_symbol = 'n'
             if place.is_visited is True:
-                visited_symbol = "V"
+                visited_symbol = "v"
             visited_places.append("{},{},{}".format(place.city, place.country, place.priority, visited_symbol))
             visited_places.append("\n")
-            exported_file.writelines(visited_places)
+        exported_file.writelines(visited_places)
         exported_file.close()
         return exported_file
 

@@ -14,7 +14,7 @@ BoxLayout:
         Label:
             text: "Add New Places"
         Label:
-            text: "Place"
+            text: "Name:"
         TextInput:
             id: new_place
             multiline: False
@@ -46,12 +46,12 @@ BoxLayout:
         BoxLayout:
             orientation: 'vertical'
             id: box_list
-        Label:
-            size_hint_y: 0.1
-            text: app.program_status_bar
         BoxLayout:
             orientation: 'vertical'
             id: place_buttons
+        Label:
+            size_hint_y: 0.1
+            text: app.program_status_bar
         Label:
             id: status_visited
             size_hint_y: 0.1
