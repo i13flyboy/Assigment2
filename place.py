@@ -13,13 +13,13 @@ class Place:
         return "City {} Country {} with priority of ({}) status {}".format(self.city, self.country, self.priority,
                                                                            visit_status)
 
-    #def __repr__(self):
-        #if self.is_visited == True:
-            #visit_status = "Visited"
-        #else:
-            #visit_status = ""
-        #return "City {} Country {} with priority of ({}) status {}".format(self.city, self.country, self.priority,
-                                                                           #visit_status)
+    def __repr__(self):
+        if self.is_visited == True:
+            visit_status = "Visited"
+        else:
+            visit_status = ""
+        return "City {} Country {} with priority of ({}) status {}".format(self.city, self.country, self.priority,
+                                                                           visit_status)
 
     def get_place_name(self):
         return self.city
@@ -34,12 +34,12 @@ class Place:
         """
         Mark the current place as visited
         """
-        return self.is_visited
+        self.is_visited = True
 
     def place_is_not_visited(self):
         """
         Mark the current place as visited
         """
-        return self.is_visited
+        self.is_visited = False
 
     pass

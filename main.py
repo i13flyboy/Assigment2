@@ -17,7 +17,7 @@ from place import Place
 
 __author__ = 'Kyle Kunz'
 
-sort_dictionary ={'Priority': "priority", 'Visited': "is_visited", 'Country': "country"}
+sort_dictionary ={'Priority': "priority", 'Visited': "is_visited", "Country": "country"}
 VISITED_COLOUR = (1, 0.5, 1, 1)
 NOT_VISITED_COLOUR = (0, 1, 1, 0.7)
 BLANK_STRING = ""
@@ -54,7 +54,7 @@ class TravelTrackerApp(App):
         return self.root
 
     def change_status(self, list_code):
-        self.root.ids.output_label.text = (sort_dictionary[list_code])
+        self.root.ids.output_label = (sort_dictionary[list_code])
         self.place_collections.sort(sort_dictionary[list_code])
 
     def dynamic_places(self):
@@ -72,7 +72,7 @@ class TravelTrackerApp(App):
         updates the entry
         """
         instance.place.is_visited = True
-        #self.root.ids.status_visited.text = "You visited " + instance.place.country
+        self.root.ids.status_visited.text = "You visited " + instance.place.country
         self.root.ids.box_list.clear_widgets()
         self.dynamic_places()
 
@@ -85,15 +85,15 @@ class TravelTrackerApp(App):
         makes all the place buttons
         """
         self.update_visited_status_bar()
-        for index, place in enumerate(self.place_collection.place):
+        for index, place in enumerate(self.place_collections.places):
             visited_status = BLANK_STRING
             if place.is_visited:
                 colour = VISITED_COLOUR
                 visited_status = "visited"
             else:
                 colour = NOT_VISITED_COLOUR
-            temp_button = Button(text=str(place), id=str(index))
-            temp_button.bind(on_release=self.handle_place_button_press)
+            temp_button = Button(text=str(place), id=str(index), background_color=colour)
+            temp_button.bind(on_release=self.handle__button_press)
             self.root.ids.place_buttons.add_widget(temp_button)
 
     def handle__button_press(self, instance):
@@ -101,16 +101,16 @@ class TravelTrackerApp(App):
         handle pressing buttons
         """
         index_number = int(instance.id)
-        if self.place_collection.places[index_number].is_visited:
-            self.place_collection.places[index_number].place_is_visited()
-            place_is_not_visited = self.place_collection.places[index_number]
-            self.update_program_status_bar("You need to visit {}".format(place_is_not_visited.place))
+        if self.place_collections.places[index_number].is_visited:
+            self.place_collections.places[index_number].place_is_visited()
+            place_is_not_visited = self.place_collections.places[index_number]
+            self.update_program_status_bar("You need to visit {}".format(place_is_not_visited))
         else:
-            self.place_collection.places[index_number].place_is_visited()
-            place_is_visited = self.place_collection.place[index_number]
-            self.update_program_status_bar("You visited {}".format(place_is_visited.place))
+            self.place_collections.places[index_number].place_is_visited()
+            place_is_visited = self.place_collections.places[index_number]
+            self.update_program_status_bar("You visited {}".format(place_is_visited))
         self.root.ids.place_buttons.clear_widgets()
-        self.sort_palces(self.root.ids.spinner_text.text)
+        self.sort_places(self.root.ids.select_day.text)
 
     def add_new_place(self):
         """
@@ -135,7 +135,7 @@ class TravelTrackerApp(App):
                     self.root.ids.new_priority.text = BLANK_STRING
                     self.place_collections.add_place(
                         Place(new_place, new_country, new_priority))
-                    #self.sort_palces(self.root.ids.spinner_text.tex)
+                    self.sort_places(self.root.ids.select_day.text)
                     self.update_program_status_bar(
                         "{} {} from {} Added".format(new_place, new_country, new_priority))
             except ValueError:
@@ -147,9 +147,9 @@ class TravelTrackerApp(App):
         """
         updates on how many places have been visited
         """
-        self.visited_status_message = "To visited: {}. visited: {}".format(self.place_collection.get_number_not_visited
+        self.visited_status_message = "To visited: {}. visited: {}".format(self.place_collections.get_number_not_visited
                                                                            (),
-                                                                           self.place_collection.get_number_visited())
+                                                                           self.place_collections.get_number_visited())
 
     def update_program_status_bar(self, instance):
         """
@@ -166,7 +166,7 @@ class TravelTrackerApp(App):
             text = "is_visited"
         self.place_collections.sort(text)
         self.root.ids.place_buttons.clear_widgets()
-        self.create_widgets()
+        self.create_widget()
 
     def handle_clear(self):
         """

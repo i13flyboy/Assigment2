@@ -56,7 +56,7 @@ class PlaceCollection:
         """
         places_not_visited_counter = 0
         for place in self.places:
-            if not place.is_watched:
+            if not place.is_visited:
                 places_not_visited_counter += 1
         return places_not_visited_counter
 
@@ -75,6 +75,9 @@ class PlaceCollection:
             visited_places.append("\n")
             exported_file.writelines(visited_places)
         exported_file.close()
+        return exported_file
 
-    def sort(self, attr="priority"):
-        self.places.sort(key=attrgetter(attr, "priority"))
+    def sort(self, key):
+        self.places.sort(key=attrgetter(key, "city"))
+
+    pass

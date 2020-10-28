@@ -5,13 +5,12 @@ BoxLayout:
         # Left hand column
         size_hint_x: 0.3
         Label:
+            id: output_label
             text: "Sort by:"
         Spinner:
             id: select_day
             values: app.list_codes
             on_text: app.change_status(self.text)
-        Label:
-            id: output_label
         Label:
             text: "Add New Places"
         Label:
@@ -55,7 +54,6 @@ BoxLayout:
             id: place_buttons
         Label:
             id: status_visited
-            text: status_visited
             size_hint_y: 0.1
             text: 'Status visited'
 
