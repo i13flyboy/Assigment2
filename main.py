@@ -17,7 +17,7 @@ from place import Place
 
 __author__ = 'Kyle Kunz'
 
-sort_dictionary ={'Priority': "priority", 'Visited': "is_visited", "Country": "country"}
+sort_dictionary ={'Priority': 'priority', 'Visited': 'is_visited', 'Country': 'country'}
 VISITED_COLOUR = (1, 0.5, 1, 1)
 NOT_VISITED_COLOUR = (0, 1, 1, 0.7)
 BLANK_STRING = ""
@@ -54,9 +54,8 @@ class TravelTrackerApp(App):
         return self.root
 
     def change_status(self, list_code):
-        self.root.ids.output_label = (sort_dictionary[list_code])
+        self.root.ids.output_label = sort_dictionary[list_code]
         self.place_collections.sort(sort_dictionary[list_code])
-        print(self.place_collections)
 
     def dynamic_places(self):
         index = 1
@@ -97,7 +96,7 @@ class TravelTrackerApp(App):
                 text=str("{} ({} from {}) {}".format(place.city, place.country, place.priority, visited_status)),
                 id=str(index), background_color=colour)
             temp_button.bind(on_release=self.handle__button_press)
-            self.root.ids.place_buttons.add_widget(temp_button)
+            self.root.ids.box_list.add_widget(temp_button)
 
     def handle__button_press(self, instance):
         """
@@ -112,7 +111,7 @@ class TravelTrackerApp(App):
             self.place_collections.places[index_number].place_is_visited()
             place_is_visited = self.place_collections.places[index_number]
             self.update_program_status_bar("You visited {}".format(place_is_visited))
-        self.root.ids.place_buttons.clear_widgets()
+        self.root.ids.box_list.clear_widgets()
         self.sort_places(self.root.ids.select_day.text)
 
     def add_new_place(self):
@@ -168,7 +167,7 @@ class TravelTrackerApp(App):
         if text == "visited":
             text = "is_visited"
         self.place_collections.sort(text)
-        self.root.ids.place_buttons.clear_widgets()
+        self.root.ids.box_list.clear_widgets()
         self.create_widget()
 
     def handle_clear(self):

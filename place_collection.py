@@ -77,7 +77,7 @@ class PlaceCollection:
         exported_file.close()
         return exported_file
 
-    def sort(self, key):
-        self.places.sort(key=attrgetter(key, "city"))
+    def sort(self, attr="priority"):
+        self.places.sort(key=attrgetter(attr, "priority"))
 
     pass
