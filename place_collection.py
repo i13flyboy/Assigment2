@@ -78,6 +78,6 @@ class PlaceCollection:
         return exported_file
 
     def sort(self, attr="priority"):
-        self.places.sort(key=attrgetter(attr, "priority"))
+        self.places.sort(key=attrgetter(attr, "priority", "country", "is_visited"))
 
     pass

@@ -49,7 +49,7 @@ class TravelTrackerApp(App):
         self.title = "Travel Tracker APP"
         self.root = Builder.load_file('app.kv')
         self.list_codes = sorted(sort_dictionary.keys())
-        self.root.ids.select_day.text = self.list_codes[0]
+        self.root.ids.select_day.text = self.list_codes[2]
         self.dynamic_places()
         return self.root
 
@@ -93,7 +93,7 @@ class TravelTrackerApp(App):
             else:
                 colour = NOT_VISITED_COLOUR
             temp_button = Button(
-                text=str("{} ({} from {}) {}".format(place.city, place.country, place.priority, visited_status)),
+                text=str("{} {} {} ({})".format(place.city, place.country, place.priority, visited_status)),
                 id=str(index), background_color=colour)
             temp_button.bind(on_release=self.handle__button_press)
             self.root.ids.box_list.add_widget(temp_button)
